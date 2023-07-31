@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ButtonTest : Interactable
+public class IronKeyPickup : Interactable
 {
-    public Material activatedColor;
+    
     public override string GetDescription()
     {
         return "press [E]";
@@ -12,13 +12,13 @@ public class ButtonTest : Interactable
 
     public override void Interact()
     {
-        Debug.Log("Heyyyy");
+        Debug.Log($"Pickup {this.gameObject.name}");
         Activate();
 
     }
 
     private void Activate()
     {
-        this.GetComponent<Renderer>().material = activatedColor;
+        Destroy(this.gameObject);
     }
 }

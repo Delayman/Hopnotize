@@ -29,7 +29,7 @@ public class PlayerInteraction : MonoBehaviour
             var interactable = _hit.collider.GetComponent<Interactable>();
             var objCheck = _hit.collider.gameObject;
             
-            Debug.Log($"Looking at {objCheck.gameObject.name}");
+            // Debug.Log($"Looking at {objCheck.gameObject.name}");
 
             if (interactable != null)
             {
