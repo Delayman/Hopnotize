@@ -15,23 +15,21 @@ public class EnemyAI : MonoBehaviour
     // [SerializeField] private float chasingRange = 3f;
 
     [SerializeField] private Transform playerTransform;
+    [SerializeField] private Transform eyeLevel;
+    [SerializeField] private float maxDistance = 10f;
 
     private Material material;
     private NavMeshAgent agent;
 
     private Node topNode;
-    public static bool isDetectedPlayer;
+    public bool isDetectedPlayer;
 
     #endregion
     
     private void Awake()
     {
-        // material = GetComponentInChildren<MeshRenderer>().material;
         pratolPaths = GameObject.FindGameObjectsWithTag("EnemyPath").ToList();
-        
-        // if(!TryGetComponent<NavMeshAgent>(out var _agent)) return;
-        
-        // agent = _agent;
+
         agent = GetComponent<NavMeshAgent>();
         isDetectedPlayer = false;
     }
@@ -55,6 +53,9 @@ public class EnemyAI : MonoBehaviour
     private void Update()
     {
         topNode.Evaluate();
+
+        CastRay();
+
         if (topNode.NodeState == NodeState.FAILURE)
         {
             SetColor(Color.cyan);
@@ -63,17 +64,25 @@ public class EnemyAI : MonoBehaviour
         
     }
 
+    private void CastRay()
+    {
+        var ray = new Ray(eyeLevel.position, this.transform.forward);
+        Debug.DrawRay(eyeLevel.position, this.transform.forward, Color.red);
+
+        if(Physics.SphereCast(ray ,1f ,out var _hit, maxDistance))
+        {
+            if(_hit.collider.gameObject.tag == "Player")
+            {
+                isDetectedPlayer = true;
+                Debug.Log("Spotted Player!");
+            }
+            // Debug.Log($"Hitting {_hit.collider.gameObject.name}");
+        }
+    }
+
     public void SetColor(Color _color)
     {
         material.color = _color;
-    }
-
-    private void OnDrawGizmosSelected()
-    {
-        var _transformPos = transform.position;
-        
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(_transformPos, 3f);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -91,6 +100,11 @@ public class EnemyAI : MonoBehaviour
         {
             StartCoroutine(StopChaseTimer());
         }
+    }
+
+    private void OnCollisionEnter(Collision other) 
+    {
+        Debug.Log("Game Over");
     }
 
     private IEnumerator StopChaseTimer()

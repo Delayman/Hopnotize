@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class IronKeyPickup : Interactable
+public class Safe : Interactable
 {
+    [SerializeField] private GameObject button;
     private ItemStatus itemStatus;
 
     private void Start() 
@@ -13,7 +14,7 @@ public class IronKeyPickup : Interactable
 
     public override string GetDescription()
     {
-        return "Press [E] to Collect iron key";
+        return "Press [E] to open safe";
     }
 
     public override void Interact()
@@ -23,8 +24,10 @@ public class IronKeyPickup : Interactable
 
     private void Activate()
     {
-        itemStatus.CollectIronKey();
+        if(itemStatus.ironKeyCount < 2) return;
+        
+        this.gameObject.GetComponent<BoxCollider>().enabled = false;
 
-        Destroy(this.gameObject);
+        button.SetActive(true);
     }
 }

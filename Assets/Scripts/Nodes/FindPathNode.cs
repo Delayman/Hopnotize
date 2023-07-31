@@ -23,7 +23,7 @@ public class FindPathNode : Node
     {
         FindPath();
         
-        return NodeState.SUCCESS;
+        return enemy.isDetectedPlayer ? NodeState.FAILURE : NodeState.SUCCESS;
     }
 
     public void FindPath()

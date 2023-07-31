@@ -5,20 +5,32 @@ using UnityEngine;
 public class ButtonTest : Interactable
 {
     public Material activatedColor;
+    public Material deActivatedColor;
+    public bool isOn = false;
+
+    private SafePuzzleController safeCtrl;
+
+    private void Start() 
+    {
+        safeCtrl = FindObjectOfType<SafePuzzleController>();
+    }
+
     public override string GetDescription()
     {
-        return "press [E]";
+        return "Press [E] to press button";
     }
 
     public override void Interact()
     {
-        Debug.Log("Heyyyy");
-        Activate();
+        isOn = !isOn;
 
+        Activate();
     }
 
     private void Activate()
     {
-        this.GetComponent<Renderer>().material = activatedColor;
+        safeCtrl.CheckCorrection();
+
+        this.GetComponent<Renderer>().material = isOn ? activatedColor : deActivatedColor;
     }
 }

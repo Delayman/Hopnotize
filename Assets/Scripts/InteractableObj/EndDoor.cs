@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class IronKeyPickup : Interactable
+public class EndDoor : Interactable
 {
     private ItemStatus itemStatus;
 
@@ -13,7 +13,7 @@ public class IronKeyPickup : Interactable
 
     public override string GetDescription()
     {
-        return "Press [E] to Collect iron key";
+        return "Press [E] to open";
     }
 
     public override void Interact()
@@ -23,8 +23,10 @@ public class IronKeyPickup : Interactable
 
     private void Activate()
     {
-        itemStatus.CollectIronKey();
+        if(!itemStatus.isCollectGoldKey) return;
 
-        Destroy(this.gameObject);
-    }
+        Debug.Log("yay");
+    
+        //Change to you win screen
+    } 
 }
