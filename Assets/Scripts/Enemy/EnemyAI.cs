@@ -12,7 +12,7 @@ public class EnemyAI : MonoBehaviour
     
     [FormerlySerializedAs("_pratolPaths")] [SerializeField] private List<GameObject> pratolPaths = new List<GameObject>();
     
-    [SerializeField] private float chasingRange = 3f;
+    // [SerializeField] private float chasingRange = 3f;
 
     [SerializeField] private Transform playerTransform;
 
@@ -20,21 +20,19 @@ public class EnemyAI : MonoBehaviour
     private NavMeshAgent agent;
 
     private Node topNode;
-    private SphereCollider sphereCollider;
     public static bool isDetectedPlayer;
 
     #endregion
     
     private void Awake()
     {
-        material = GetComponentInChildren<MeshRenderer>().material;
+        // material = GetComponentInChildren<MeshRenderer>().material;
         pratolPaths = GameObject.FindGameObjectsWithTag("EnemyPath").ToList();
         
-        if(!TryGetComponent<NavMeshAgent>(out var _agent)) return;
-        if(!TryGetComponent<SphereCollider>(out var _sphere)) return;
+        // if(!TryGetComponent<NavMeshAgent>(out var _agent)) return;
         
-        agent = _agent;
-        sphereCollider = _sphere;
+        // agent = _agent;
+        agent = GetComponent<NavMeshAgent>();
         isDetectedPlayer = false;
     }
 

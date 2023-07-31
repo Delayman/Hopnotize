@@ -13,9 +13,17 @@ public class PlayerInteraction : MonoBehaviour
 
     public Camera cam;
 
+    int mapLayer = 7;
+    int btnLayer = 6;
+    private int layerAsLayerMask;
+
+
     private void Start()
     {
         interactionText = GameObject.FindGameObjectWithTag("InteractTextField").GetComponent<TextMeshProUGUI>();
+
+        layerAsLayerMask = (1 << mapLayer);
+        layerAsLayerMask |= (1 << btnLayer); 
     }
 
     private void Update()
@@ -23,8 +31,8 @@ public class PlayerInteraction : MonoBehaviour
         var ray = cam.ScreenPointToRay(new Vector3(Screen.width / 2f, Screen.height / 2f, 0f));
 
         var successfulHit = false;
-
-        if (Physics.Raycast(ray, out var _hit, interactionDistance ,1 << LayerMask.NameToLayer("Button")))
+        
+        if (Physics.Raycast(ray, out var _hit, interactionDistance ,layerAsLayerMask))
         {
             var interactable = _hit.collider.GetComponent<Interactable>();
             var objCheck = _hit.collider.gameObject;

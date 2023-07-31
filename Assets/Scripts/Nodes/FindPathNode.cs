@@ -5,43 +5,51 @@ using UnityEngine.AI;
 
 public class FindPathNode : Node
 {
-    private List<GameObject> path;
+    private readonly List<GameObject> savedPath = new List<GameObject>();
+    private readonly List<GameObject> tempPath= new List<GameObject>();
     private NavMeshAgent agent;
-    private EnemyAI enemmy;
-    private bool isDetected;
+    private EnemyAI enemy;
+    private bool isDetected, isDistracted, isSearching;
 
     public FindPathNode(List<GameObject> _path, NavMeshAgent _agent, EnemyAI _enemmy)
     {
-        path = _path;
+        savedPath.AddRange(_path);
+        tempPath.AddRange(_path);
         agent = _agent;
-        enemmy = _enemmy;
+        enemy = _enemmy;
     }
 
     public override NodeState Evaluate()
     {
         FindPath();
-        isDetected = EnemyAI.isDetectedPlayer;
-        return !isDetected ? NodeState.SUCCESS : NodeState.FAILURE;
+        
+        return NodeState.SUCCESS;
     }
-    
-    private Transform FindPath()
+
+    public void FindPath()
     {
-        enemmy.SetColor(Color.yellow);
-        Transform _destination = null;
-
-        if (path[0] == null) return _destination;
+        var _distance = Vector3.Distance(tempPath[0].transform.position, agent.transform.position);
+        agent.speed = 2f;
+        agent.angularSpeed = 180f;
+        // Debug.Log($"Distance left : {_distance}");
         
-        if (path[0].transform != null)
+        if (tempPath.Count > 0)
         {
-            return path[0].transform;
+            // Debug.Log($"Set Path");
+            agent.isStopped = false;
+            agent.SetDestination(tempPath[0].transform.position);
         }
-        
-        // foreach (var _waypoint in path)
-        // {
-        //     return _waypoint;
-        // }
 
+        if (_distance < 1.5f)
+        {
+            // Debug.Log($"Remove path");
+            tempPath.Remove(tempPath[0]);
+        }
 
-        return _destination;
+        if (_distance < 1.5f && tempPath.Count == 1)
+        {
+            // Debug.Log($"Add path for loop");
+            tempPath.AddRange(savedPath);
+        }
     }
 }
