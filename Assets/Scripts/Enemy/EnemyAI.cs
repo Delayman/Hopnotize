@@ -5,6 +5,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Serialization;
+using UnityEngine.SceneManagement;
 
 public class EnemyAI : MonoBehaviour
 {
@@ -78,6 +79,6 @@ public class EnemyAI : MonoBehaviour
 
     private void OnCollisionEnter(Collision other) 
     {
-        Debug.Log("Game Over");
+        SceneManager.LoadScene("Gameover_scene");
     }
 }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class EndDoor : Interactable
 {
@@ -30,8 +31,6 @@ public class EndDoor : Interactable
             return;
         }
 
-        Debug.Log("yay");
-    
-        //Change to you win screen
+        SceneManager.LoadScene("Win_Scene");
     } 
 }
