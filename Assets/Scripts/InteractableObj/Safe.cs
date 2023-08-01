@@ -6,10 +6,12 @@ public class Safe : Interactable
 {
     [SerializeField] private GameObject button;
     private ItemStatus itemStatus;
+    private Dialogue dialogue;
 
     private void Start() 
     {
         itemStatus = FindObjectOfType<ItemStatus>();
+        dialogue = FindObjectOfType<Dialogue>();
     }
 
     public override string GetDescription()
@@ -24,8 +26,12 @@ public class Safe : Interactable
 
     private void Activate()
     {
-        if(itemStatus.ironKeyCount < 2) return;
-        
+        if(itemStatus.ironKeyCount < 2)
+        {
+            dialogue.StartCoroutine(dialogue.CantOpenTextNarrator());
+            return;
+        }
+
         this.gameObject.GetComponent<BoxCollider>().enabled = false;
 
         button.SetActive(true);

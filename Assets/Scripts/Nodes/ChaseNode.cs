@@ -9,39 +9,19 @@ public class ChaseNode : Node
 {
     private Transform target;
     private NavMeshAgent agent;
-    private EnemyAI enemmy;
+    private EnemyAI enemy;
     private float chaseTimer;
 
     public ChaseNode(Transform _target, NavMeshAgent _agent, EnemyAI _enemy)
     {
-        this.target = _target;
         this.agent = _agent;
-        this.enemmy = _enemy;
-        chaseTimer = 0f;
+        this.enemy = _enemy;
     }
     public override NodeState Evaluate()
     {
-        Debug.Log($"Chasing");
-        
-        var _distance = Vector3.Distance(target.position, agent.transform.position);
-
-        // if (_distance > 0.1f)
-        // {
-        //     agent.isStopped = false;
-        //     agent.SetDestination(target.position);
-        //     return NodeState.RUNNING;
-        // }
-        // else
-        // {
-        //     chaseTimer -= Time.deltaTime;
-        //     Debug.Log($"Timer : {chaseTimer}");
-        // }
+        target = enemy.playerTransform;
+        agent.SetDestination(target.transform.position);
 
         return chaseTimer <= 0 ? NodeState.SUCCESS : NodeState.FAILURE;
-    }
-
-    private void ChasingTime()
-    {
-        
     }
 }

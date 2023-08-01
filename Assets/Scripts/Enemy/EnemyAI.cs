@@ -11,12 +11,10 @@ public class EnemyAI : MonoBehaviour
     #region Enemy Setting Variable
     
     [FormerlySerializedAs("_pratolPaths")] [SerializeField] private List<GameObject> pratolPaths = new List<GameObject>();
-    
-    // [SerializeField] private float chasingRange = 3f;
-
-    [SerializeField] private Transform playerTransform;
     [SerializeField] private Transform eyeLevel;
     [SerializeField] private float maxDistance = 10f;
+
+    public Transform playerTransform;
 
     private Material material;
     private NavMeshAgent agent;
@@ -58,7 +56,6 @@ public class EnemyAI : MonoBehaviour
 
         if (topNode.NodeState == NodeState.FAILURE)
         {
-            SetColor(Color.cyan);
             agent.isStopped = true;
         }
         
@@ -74,42 +71,13 @@ public class EnemyAI : MonoBehaviour
             if(_hit.collider.gameObject.tag == "Player")
             {
                 isDetectedPlayer = true;
-                Debug.Log("Spotted Player!");
+                playerTransform = _hit.collider.gameObject.transform;
             }
-            // Debug.Log($"Hitting {_hit.collider.gameObject.name}");
-        }
-    }
-
-    public void SetColor(Color _color)
-    {
-        material.color = _color;
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Player"))
-        {
-            isDetectedPlayer = true;
-            StopCoroutine(StopChaseTimer());
-        }
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.CompareTag("Player"))
-        {
-            StartCoroutine(StopChaseTimer());
         }
     }
 
     private void OnCollisionEnter(Collision other) 
     {
         Debug.Log("Game Over");
-    }
-
-    private IEnumerator StopChaseTimer()
-    {
-        yield return new WaitForSeconds(10f);
-        isDetectedPlayer = false;
     }
 }

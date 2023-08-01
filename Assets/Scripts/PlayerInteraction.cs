@@ -37,8 +37,6 @@ public class PlayerInteraction : MonoBehaviour
             var interactable = _hit.collider.GetComponent<Interactable>();
             var objCheck = _hit.collider.gameObject;
             
-            // Debug.Log($"Looking at {objCheck.gameObject.name}");
-
             if (interactable != null)
             {
                 interactionText.text = interactable.GetDescription();
@@ -47,7 +45,6 @@ public class PlayerInteraction : MonoBehaviour
             }
         }
 
-        // if we miss, hide the UI
         if (!successfulHit && interactionText != null)
         {
             interactionText.text = "";
@@ -61,7 +58,6 @@ public class PlayerInteraction : MonoBehaviour
         switch (interactable.interactionType)
         {
             case Interactable.InteractionType.Click:
-                // interaction type is click and we clicked the button -> interact
                 if (Input.GetKeyDown(key))
                 {
                     interactable.Interact();
@@ -70,7 +66,6 @@ public class PlayerInteraction : MonoBehaviour
             case Interactable.InteractionType.Hold:
                 if (Input.GetKey(key))
                 {
-                    // we are holding the key, increase the timer until we reach 1f
                     interactable.IncreaseHoldTime();
                     if (interactable.GetHoldTime() > 1f) 
                     {
@@ -82,9 +77,7 @@ public class PlayerInteraction : MonoBehaviour
                 {
                     interactable.ResetHoldTime();
                 }
-                // interactionHoldProgress.fillAmount = interactable.GetHoldTime();
                 break;
-            // helpful error for us in the future
             default:
                 throw new System.Exception("Unsupported type of interactable.");
         }

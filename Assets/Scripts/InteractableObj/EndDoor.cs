@@ -5,6 +5,7 @@ using UnityEngine;
 public class EndDoor : Interactable
 {
     private ItemStatus itemStatus;
+    private Dialogue dialogue;
 
     private void Start() 
     {
@@ -23,7 +24,11 @@ public class EndDoor : Interactable
 
     private void Activate()
     {
-        if(!itemStatus.isCollectGoldKey) return;
+        if(!itemStatus.isCollectGoldKey)
+        {
+            dialogue.StartCoroutine(dialogue.CantOpenTextNarrator());
+            return;
+        }
 
         Debug.Log("yay");
     
