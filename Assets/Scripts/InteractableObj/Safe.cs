@@ -28,7 +28,7 @@ public class Safe : Interactable
     {
         if(itemStatus.ironKeyCount < 2)
         {
-            dialogue.StartCoroutine(dialogue.CantOpenTextNarrator());
+            dialogue.Invoke(nameof(dialogue.CantOpenTextNarrator),0.2f);
             return;
         }
 

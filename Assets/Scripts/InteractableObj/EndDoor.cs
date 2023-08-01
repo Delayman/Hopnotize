@@ -11,6 +11,7 @@ public class EndDoor : Interactable
     private void Start() 
     {
         itemStatus = FindObjectOfType<ItemStatus>();
+        dialogue = FindObjectOfType<Dialogue>();
     }
 
     public override string GetDescription()
@@ -27,7 +28,7 @@ public class EndDoor : Interactable
     {
         if(!itemStatus.isCollectGoldKey)
         {
-            dialogue.StartCoroutine(dialogue.CantOpenTextNarrator());
+            dialogue.Invoke(nameof(dialogue.CantOpenTextNarrator),0.2f);
             return;
         }
 

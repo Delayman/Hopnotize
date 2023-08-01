@@ -10,23 +10,29 @@ public class Dialogue : MonoBehaviour
 
     private void Start()
     {
-        StartCoroutine(StartTextNarrator());
+        Invoke(nameof(StartTextNarrator), 2f);
     }
 
-    private IEnumerator StartTextNarrator()
+    private void StartTextNarrator()
     {
-        yield return new WaitForSeconds(1.5f);
         textObj.text = "Augh.. Where am i?";
-        yield return new WaitForSeconds(2f);
-
-        textObj.text = "";
+        Invoke(nameof(ClearDialogue), 2f);
     }
 
-    public IEnumerator CantOpenTextNarrator()
+    public void CantOpenTextNarrator()
     {
         textObj.text = "Can't open it";
-        yield return new WaitForSeconds(2f);
+        Invoke(nameof(ClearDialogue), 2f);
+    }
 
+    public void MonsterTextNarrator()
+    {
+        textObj.text = "I should grab key and get out of here";
+        Invoke(nameof(ClearDialogue), 2f);
+    }
+
+    public void ClearDialogue()
+    {
         textObj.text = "";
     }
 }

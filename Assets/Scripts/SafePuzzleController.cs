@@ -24,6 +24,13 @@ public class SafePuzzleController : MonoBehaviour
 
     private bool isCorrect = false;
 
+    private Dialogue dialogue;
+
+    private void Start() 
+    {
+        dialogue = FindObjectOfType<Dialogue>();
+    }
+
     public void CheckCorrection()
     {
         foreach(var correctBtn in correctBtnList)
@@ -68,19 +75,11 @@ public class SafePuzzleController : MonoBehaviour
 
     private void SpawnMonster()
     {
-        StartCoroutine(TextNarrator());
+        textObj.text = "I think i heard something";
+        dialogue.Invoke(nameof(dialogue.MonsterTextNarrator), 2f);
 
         if(isTesting) return;
         
         Instantiate(enemyPrefab,spawnPoint.transform.position,spawnPoint.transform.rotation);
-    }
-
-    private IEnumerator TextNarrator()
-    {
-        textObj.text = "I think i heard something";
-        yield return new WaitForSeconds(2f);
-        textObj.text = "I should grab key and get out of here";
-        yield return new WaitForSeconds(3f);
-        textObj.text = "";
     }
 }
